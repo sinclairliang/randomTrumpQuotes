@@ -3,7 +3,7 @@ import Quotes from "./components/Quotes";
 import GetRandomQuotes from "./components/GetRandomQuotes";
 import SearchBar from "./components/SearchBar";
 
-const API_URL_RANDOM = "https://api.tronalddump.io/random/quote";
+const API_URL_RANDOM = "http://127.0.0.1:3002/random";
 class App extends React.Component {
   state = {
     tag: undefined,
@@ -19,9 +19,9 @@ class App extends React.Component {
     const data = await api_call.json();
     console.log(data);
     this.setState({
-      tag: data.tags[0],
-      value: data.value,
-      tweet_url: data._embedded.source[0].url,
+      tag: data.result,
+      value: data.data.contents,
+      tweet_url: "https://twitter.com/realDonaldTrump/status/"+data.data.id_str,
       error: ""
     });
   };
@@ -43,7 +43,6 @@ class App extends React.Component {
         <GetRandomQuotes getRandomQuote={this.getRandomQuote} />
         {/* <SearchBar getQuoteOn={this.getQuoteOn} /> */}
         <Quotes
-          
           tag={this.state.tag}
           value={this.state.value}
           tweet_url={this.state.tweet_url}
